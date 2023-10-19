@@ -22,7 +22,8 @@ jobs:
     permissions: write-all
     strategy:
       matrix:
-        python: [3.9, 3.10, 3.11, 3.12]
+        python-ver: ["py-3_9", "py-3_10", "py-3_11", "py-3_12"]
+
     steps:
 
       - name: Check out the repo
@@ -38,7 +39,7 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: "${{ matrix.python-ver }}"
           push: false
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dev
