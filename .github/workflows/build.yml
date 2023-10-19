@@ -6,6 +6,9 @@ on:
       version:
         required: true
         type: string
+      build-type:
+        required: true
+        type: string
 
 defaults:
   run:
@@ -13,7 +16,7 @@ defaults:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: "howso-devcontainer"
 
 jobs:
 
@@ -35,6 +38,13 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Login to container registry
+        if: inputs.build-type == 'release'
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
 
       - name: Build Docker image
         uses: docker/build-push-action@v4
@@ -44,3 +54,14 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dev
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Create Release
+        if: inputs.build-type == 'release'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ inputs.version }}
+          commit: ${{ github.sha }}
+          name: "Howso Dev Containers ${{ inputs.version }}"
+          artifactErrorsFailBuild: true
+          generateReleaseNotes: true
+          makeLatest: legacy
