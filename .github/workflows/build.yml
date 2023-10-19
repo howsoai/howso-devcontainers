@@ -16,7 +16,7 @@ defaults:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: howso-devcontainer
+  IMAGE_NAME: howsoai/howso-devcontainer
 
 jobs:
 
@@ -52,7 +52,7 @@ jobs:
       - name: Build & Push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: "${{ matrix.python-ver }}"
+          context: ${{ matrix.python-ver }}
           push: ${{ inputs.build-type == 'release' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
