@@ -20,7 +20,7 @@ env:
 
 jobs:
 
-  build-container-image:
+  build:
     runs-on: ubuntu-latest
     permissions: write-all
     strategy:
@@ -60,13 +60,19 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ${{ matrix.python-ver }}
-          platforms: linux/amd64,linux/arm/v8
+          platforms: linux/amd64,linux/arm64
           push: ${{ inputs.build-type == 'release' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+  release:
+    needs: ['build']
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+
       - name: Create Release
-        if: inputs.build-type == 'release' && matrix.python-ver == 'py-3_12'
+        if: inputs.build-type == 'release'
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ inputs.version }}
