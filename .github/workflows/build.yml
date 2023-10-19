@@ -58,7 +58,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Create Release
-        if: inputs.build-type == 'release'
+        if: inputs.build-type == 'release' && matrix.python-ver == 'py-3_12'
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ inputs.version }}
