@@ -25,7 +25,7 @@ jobs:
     permissions: write-all
     strategy:
       matrix:
-        python-ver: ["py-3_9", "py-3_10", "py-3_11", "py-3_12"]
+        python-ver: ["3.9", "3.10", "3.11", "3.12"]
 
     steps:
 
@@ -45,8 +45,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=${{ inputs.version }}_${{ matrix.python-ver }}
-            type=raw,value=latest,enable=${{ matrix.python-ver == 'py-3_12' }}
+            type=raw,value=${{ inputs.version }}_python${{ matrix.python-ver }}
+            type=raw,value=latest,enable=${{ matrix.python-ver == '3.12' }}
+            type=raw,value=latest_python${{ matrix.python-ver }}
 
       - name: Login to container registry
         if: inputs.build-type == 'release'
@@ -59,7 +60,9 @@ jobs:
       - name: Build & Push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: ${{ matrix.python-ver }}
+          context: .
+          build-args: |
+            PY_VERSION=${{ matrix.python-ver }}
           platforms: linux/amd64,linux/arm64
           push: ${{ inputs.build-type == 'release' }}
           tags: ${{ steps.meta.outputs.tags }}
