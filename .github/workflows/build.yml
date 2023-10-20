@@ -25,7 +25,7 @@ jobs:
     permissions: write-all
     strategy:
       matrix:
-        python-ver: ["3.9", "3.10", "3.11", "3.12"]
+        python-ver: ["3.8", "3.9", "3.10", "3.11"]
 
     steps:
 
@@ -46,7 +46,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=${{ inputs.version }}-python${{ matrix.python-ver }}
-            type=raw,value=latest,enable=${{ matrix.python-ver == '3.12' }}
+            type=raw,value=latest,enable=${{ matrix.python-ver == '3.11' }}
             type=raw,value=latest-python${{ matrix.python-ver }}
 
       - name: Login to container registry
