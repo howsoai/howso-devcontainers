@@ -1,4 +1,8 @@
 ARG PY_VERSION=3.12
 FROM mcr.microsoft.com/devcontainers/python:${PY_VERSION}-bullseye
 
-RUN pip install pmlb "ipykernel>=6.0.0,<7" howso-engine
+ARG HOWSO_ENGINE_VERSION=9.1.5
+RUN pip install howso-engine==${HOWSO_ENGINE_VERSION}
+
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt

@@ -45,9 +45,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=${{ inputs.version }}_python${{ matrix.python-ver }}
+            type=raw,value=${{ inputs.version }}-python${{ matrix.python-ver }}
             type=raw,value=latest,enable=${{ matrix.python-ver == '3.12' }}
-            type=raw,value=latest_python${{ matrix.python-ver }}
+            type=raw,value=latest-python${{ matrix.python-ver }}
 
       - name: Login to container registry
         if: inputs.build-type == 'release'
