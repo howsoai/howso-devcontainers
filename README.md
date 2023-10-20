@@ -1,6 +1,6 @@
 # Howso Dev Containers
 
-Containers for running Howso recipes.
+Containers for running Jupyter notebooks and python code using Howso Engine.
 
 ## Building
 
