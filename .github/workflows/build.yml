@@ -16,7 +16,7 @@ defaults:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: howsoai/howso-devcontainer
+  IMAGE_BASE: howsoai/howso
 
 jobs:
 
@@ -43,11 +43,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE }}-py{{ matrix.python-ver }}
           tags: |
-            type=raw,value=${{ inputs.version }}-python${{ matrix.python-ver }}
-            type=raw,value=latest,enable=${{ matrix.python-ver == '3.11' }}
-            type=raw,value=latest-python${{ matrix.python-ver }}
+            type=raw,value=${{ inputs.version }}
+            type=raw,value=latest
 
       - name: Login to container registry
         if: inputs.build-type == 'release'
@@ -67,6 +66,7 @@ jobs:
           push: ${{ inputs.build-type == 'release' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          outputs: type=image,name=target,annotation-index.org.opencontainers.image.title=Howso Dev Container for Python {{ matrix.python-ver }},annotation.org.opencontainers.image.authors=Howso <support@howso.com>,annotation.org.opencontainers.image.licenses=AGPL-3.0-or-later,annotation.org.opencontainers.image.description=Containerized environment for using Howso Engine from VSCode,annotation.org.opencontainers.image.source=https://github.com/howsoai/howso-devcontainers
 
   release:
     needs: ['build']
