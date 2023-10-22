@@ -53,9 +53,9 @@ jobs:
           echo "release-tag=$(echo $RELEASE_TAG)" >> $GITHUB_OUTPUT
 
   release:
-    needs: ['load-release-tag']
+    needs: ['construct-release-tag']
     uses: "./.github/workflows/build.yml"
     secrets: inherit
     with:
-      version: ${{ needs.load-release-tag.outputs.release-tag }}
+      version: ${{ needs.construct-release-tag.outputs.release-tag }}
       build-type: "release"
