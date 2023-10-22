@@ -32,6 +32,13 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
+      - name: Extract engine version from version.json
+        id: extract-version
+        run: |
+          ENGINE_VERSION=$(jq -r '.dependencies.howso-engine-py' version.json)
+          echo "Howso Engine version: $ENGINE_VERSION"
+          echo "engine-version=$(echo $ENGINE_VERSION)" >> $GITHUB_OUTPUT
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -62,6 +69,7 @@ jobs:
           context: .
           build-args: |
             PY_VERSION=${{ matrix.python-ver }}
+            HOWSO_ENGINE_VERSION=${{ steps.extract-version.outputs.engine-version }}
           platforms: linux/amd64,linux/arm64
           push: ${{ inputs.build-type == 'release' }}
           tags: ${{ steps.meta.outputs.tags }}
