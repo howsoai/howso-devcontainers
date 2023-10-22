@@ -35,7 +35,7 @@ jobs:
       - name: Extract engine version from version.json
         id: extract-version
         run: |
-          ENGINE_VERSION=$(jq -r '.dependencies.howso-engine-py' version.json)
+          ENGINE_VERSION=$(jq -r '.dependencies."howso-engine-py"' version.json)
           echo "Howso Engine version: $ENGINE_VERSION"
           echo "engine-version=$(echo $ENGINE_VERSION)" >> $GITHUB_OUTPUT
 
