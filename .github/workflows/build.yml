@@ -16,7 +16,7 @@ defaults:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_BASE: howsoai/howso
+  IMAGE_NAME: howsoai/howso
 
 jobs:
 
@@ -50,10 +50,11 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE }}-py${{ matrix.python-ver }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=${{ inputs.version }}
-            type=raw,value=latest
+            type=raw,value=${{ inputs.version }}-python${{ matrix.python-ver }}
+            type=raw,value=python${{ matrix.python-ver }}
+            type=raw,value=latest,enable=${{ matrix.python-ver == '3.11' }}
 
       - name: Login to container registry
         if: inputs.build-type == 'release'
