@@ -42,12 +42,12 @@ jobs:
             RELEASE_TAG=${{ inputs.optional-release-tag }}
           fi
 
-          # # Check if tag already exists:
-          # if git rev-parse "$RELEASE_TAG" >/dev/null 2>&1; then
-          #   echo "❌ - Release tag already exists: $RELEASE_TAG"
-          #   exit 1
-          # fi
-          # echo "✔ - Release tag does not exist"
+          # Check if tag already exists:
+          if git rev-parse "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo "❌ - Release tag already exists: $RELEASE_TAG"
+            exit 1
+          fi
+          echo "✔ - Release tag does not exist"
 
           echo "Release tag: $RELEASE_TAG"
           echo "release-tag=$(echo $RELEASE_TAG)" >> $GITHUB_OUTPUT
