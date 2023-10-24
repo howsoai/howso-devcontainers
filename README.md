@@ -96,9 +96,9 @@ More details are available in the next section, but here are the basic steps:
 
 ## Using the Dev Container
 
-Assuming that the prerequisites (i.e. Docker and VS Code) have been installed, using the dev container starts with adding a `.devcontainers` directory where you plan to run VS Code. This would typically be a directory that contains Jupyter notebooks or python code that you want to run using Howso Engine. In the case of the [Howso Engine Recipes](https://github.com/howsoai/howso-engine-recipes), this has already been done and can serve as an example.
+Assuming that the prerequisites (i.e. Docker and VS Code) have been installed, using the dev container starts with adding a `.devcontainer` directory where you plan to run VS Code. This would typically be a directory that contains Jupyter notebooks or python code that you want to run using Howso Engine. In the case of the [Howso Engine Recipes](https://github.com/howsoai/howso-engine-recipes), this has already been done and can serve as an example.
 
-Within the `.devcontainers` directory, create a subdirectory for each dev container image you'd like to make available when running VS Code. Note that the subdirectory name will be shown in VS Code when selecting the dev container to use, so make it something readable that reflects the image version.
+Within the `.devcontainer` directory, create a subdirectory for each dev container image you'd like to make available when running VS Code. Note that the subdirectory name will be shown in VS Code when selecting the dev container to use, so make it something readable that reflects the image version.
 
 Once created, each subdirectory needs a JSON file named `devcontainer.json` that specifies the dev container image to use. Here are some example contents:
 ```
