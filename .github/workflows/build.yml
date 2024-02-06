@@ -43,13 +43,16 @@ jobs:
           echo "engine-version=$(echo $ENGINE_VERSION)" >> $GITHUB_OUTPUT
 
       - name: Set up QEMU
+        if: inputs.build-type == 'release'
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
+        if: inputs.build-type == 'release'
         id: buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Docker meta
+        if: inputs.build-type == 'release'
         id: meta
         uses: docker/metadata-action@v4
         with:
@@ -68,6 +71,7 @@ jobs:
           password: ${{ github.token }}
 
       - name: Build & Push Docker image
+        if: inputs.build-type == 'release'
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -75,7 +79,7 @@ jobs:
             PY_VERSION=${{ matrix.python-ver }}
             HOWSO_ENGINE_VERSION=${{ steps.extract-version.outputs.engine-version }}
           platforms: linux/amd64,linux/arm64
-          push: ${{ inputs.build-type == 'release' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=target,annotation-index.org.opencontainers.image.title=Howso Dev Container for Python ${{ matrix.python-ver }},annotation.org.opencontainers.image.authors=Howso <support@howso.com>,annotation.org.opencontainers.image.licenses=AGPL-3.0-or-later,annotation.org.opencontainers.image.description=Containerized environment for using Howso Engine from VSCode,annotation.org.opencontainers.image.source=https://github.com/howsoai/howso-devcontainers
