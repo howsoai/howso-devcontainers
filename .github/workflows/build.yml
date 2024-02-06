@@ -134,7 +134,7 @@ jobs:
           ENGINE_VERSION="${{ needs.build.outputs.engine-version }}"
           declare -a arr=("3.8" "3.9" "3.10" "3.11") 
           for PY_VERSION in "${arr[@]}"; do
-            echo "Setting up .devcontainers for Python$version"
+            echo "Setting up .devcontainers for Python$PY_VERSION"
             mkdir .devcontainers/$ENGINE_VERSION-python$PY_VERSION
             cp .github/templates/devcontainer.json .devcontainers/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json
             sed -i "s|{HOWSO_ENGINE_VERSION}|$ENGINE_VERSION|g" .devcontainers/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json
