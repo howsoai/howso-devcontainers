@@ -103,7 +103,7 @@ jobs:
 
   create-branch:
     if: inputs.build-type == 'release'
-    needs: ['gen-branch-name']
+    needs: ['build', 'gen-branch-name']
     uses: "howsoai/.github/.github/workflows/create-branch.yml@main"
     secrets: inherit
     with:
@@ -128,7 +128,8 @@ jobs:
 
       - name: Update devcontainer files
         run: |
-          cd rm -rf .devcontainers
+          # Remove all existing .devcontainers files and subdirectories
+          rm -rf .devcontainers
           mkdir .devcontainers
           ENGINE_VERSION="${{ needs.build.outputs.engine-version }}"
           declare -a arr=("3.8" "3.9" "3.10" "3.11") 
