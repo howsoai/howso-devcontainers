@@ -1,13 +1,15 @@
-name: Reusable WF - Build
+name: Build
+run-name: "Branch Build (${{ github.run_attempt }}.${{ github.run_number }}) - ${{ github.ref_name }}"
 
 on:
+  workflow_dispatch:
   workflow_call:
     inputs:
-      version:
-        required: true
-        type: string
       build-type:
-        required: true
+        required: false
+        type: string
+      optional-release-tag:
+        required: false
         type: string
 
 defaults:
@@ -26,7 +28,8 @@ jobs:
     strategy:
       matrix:
         python-ver: ["3.8", "3.9", "3.10", "3.11"]
-
+    outputs:
+      engine-version: ${{ steps.extract-version.outputs.engine-version }}
     steps:
 
       - name: Check out the repo
@@ -52,7 +55,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=${{ inputs.version }}-python${{ matrix.python-ver }}
+            type=raw,value=${{ steps.extract-version.outputs.engine-version }}-python${{ matrix.python-ver }}
             type=raw,value=python${{ matrix.python-ver }}
             type=raw,value=latest,enable=${{ matrix.python-ver == '3.11' }}
 
@@ -77,8 +80,89 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=target,annotation-index.org.opencontainers.image.title=Howso Dev Container for Python ${{ matrix.python-ver }},annotation.org.opencontainers.image.authors=Howso <support@howso.com>,annotation.org.opencontainers.image.licenses=AGPL-3.0-or-later,annotation.org.opencontainers.image.description=Containerized environment for using Howso Engine from VSCode,annotation.org.opencontainers.image.source=https://github.com/howsoai/howso-devcontainers
 
+  gen-branch-name:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      branch: ${{ steps.gen-branch-name.outputs.branch }}
+
+    steps:
+    
+    - name: Generate branch name
+      id: gen-branch-name
+      run: |
+        NOW=$(date +'%Y-%m-%dT%Hh%Mm%Ss')
+        BRANCH="update-devcontainers-$NOW"
+        echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+
+  create-branch:
+    needs: ['gen-branch-name']
+    uses: "howsoai/.github/.github/workflows/create-branch.yml@main"
+    secrets: inherit
+    with:
+      branch: ${{ needs.gen-branch-name.outputs.branch }}
+      repo: 'howsoai/howso-engine-recipes'
+
+  update-engine-recipes:
+    needs: ['build', 'gen-branch-name', 'create-branch']
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+   
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.HOWSOAI_WORKFLOW_AUTOMATION_TOKEN }}
+          ref: ${{ needs.gen-branch-name.outputs.branch }}
+          repository: 'howsoai/howso-engine-recipes'
+
+      - name: Update devcontainer files
+        run: |
+          cd rm -rf .devcontainers
+          mkdir .devcontainers
+          ENGINE_VERSION="${{ needs.build.outputs.engine-version }}"
+          declare -a arr=("3.8" "3.9" "3.10" "3.11") 
+          for PY_VERSION in "${arr[@]}"; do
+            echo "Setting up .devcontainers for Python$version"
+            mkdir .devcontainers/$ENGINE_VERSION-python$PY_VERSION
+            cp .github/templates/devcontainer.json .devcontainers/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json
+            sed -i "s|{HOWSO_ENGINE_VERSION}|$ENGINE_VERSION|g" .devcontainers/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json
+            sed -i "s|{PYTHON_VERSION}|$PY_VERSION|g" .devcontainers/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json
+            # If the current Python version is 3.11, also set it as the default devcontainer file
+            if [[ "$PY_VERSION" == "3.11" ]]; then
+              cp .devcontainers/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json .devcontainers/devcontainer.json
+            fi
+          done
+
+      - name: Commit and push changes
+        run: |
+          git pull
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "howso-automation"
+            git config user.email "support@howso.com"
+            git add \*.json
+            git commit -m "Automated update to .devcontainers"
+            git push
+          else
+            echo "No changes detected in the repository."
+            exit 1
+          fi
+
+  create-pr:
+    needs: ['gen-branch-name', 'update-engine-recipes']
+    uses: "howsoai/.github/.github/workflows/create-pr.yml@main"
+    secrets: inherit
+    with:
+      branch: ${{ needs.gen-branch-name.outputs.branch }}
+      repo: 'howsoai/howso-engine-recipes'
+      title: 'Automated update to .devcontainers'
+      body: 'This action was performed by a bot. Please review carefully.'
+
   release:
-    needs: ['build']
+    needs: ['create-pr', 'build']
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
@@ -87,9 +171,9 @@ jobs:
         if: inputs.build-type == 'release'
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ inputs.version }}
+          tag: ${{ needs.build.outputs.engine-version }} # The .devcontainers version should be tied to the howso-engine version
           commit: ${{ github.sha }}
-          name: "Howso Dev Containers ${{ inputs.version }}"
+          name: "Howso Dev Containers ${{ needs.build.outputs.engine-version }}"
           artifactErrorsFailBuild: true
           generateReleaseNotes: true
           makeLatest: legacy
