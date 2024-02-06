@@ -81,6 +81,7 @@ jobs:
           outputs: type=image,name=target,annotation-index.org.opencontainers.image.title=Howso Dev Container for Python ${{ matrix.python-ver }},annotation.org.opencontainers.image.authors=Howso <support@howso.com>,annotation.org.opencontainers.image.licenses=AGPL-3.0-or-later,annotation.org.opencontainers.image.description=Containerized environment for using Howso Engine from VSCode,annotation.org.opencontainers.image.source=https://github.com/howsoai/howso-devcontainers
 
   gen-branch-name:
+    if: inputs.build-type == 'release'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -97,6 +98,7 @@ jobs:
         echo "branch=$BRANCH" >> $GITHUB_OUTPUT
 
   create-branch:
+    if: inputs.build-type == 'release'
     needs: ['gen-branch-name']
     uses: "howsoai/.github/.github/workflows/create-branch.yml@main"
     secrets: inherit
@@ -105,6 +107,7 @@ jobs:
       repo: 'howsoai/howso-engine-recipes'
 
   update-engine-recipes:
+    if: inputs.build-type == 'release'
     needs: ['build', 'gen-branch-name', 'create-branch']
     runs-on: ubuntu-latest
     permissions:
@@ -152,6 +155,7 @@ jobs:
           fi
 
   create-pr:
+    if: inputs.build-type == 'release'
     needs: ['gen-branch-name', 'update-engine-recipes']
     uses: "howsoai/.github/.github/workflows/create-pr.yml@main"
     secrets: inherit
@@ -162,13 +166,13 @@ jobs:
       body: 'This action was performed by a bot. Please review carefully.'
 
   release:
+    if: inputs.build-type == 'release'
     needs: ['create-pr', 'build']
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
 
       - name: Create Release
-        if: inputs.build-type == 'release'
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ needs.build.outputs.engine-version }} # The .devcontainers version should be tied to the howso-engine version
