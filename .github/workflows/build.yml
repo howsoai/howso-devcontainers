@@ -164,6 +164,9 @@ jobs:
     needs: ['gen-branch-name', 'update-engine-recipes']
     uses: "howsoai/.github/.github/workflows/create-pr.yml@main"
     secrets: inherit
+    permissions:
+      contents: write
+      pull-requests: write
     with:
       branch: ${{ needs.gen-branch-name.outputs.branch }}
       repo: 'howsoai/howso-engine-recipes'
