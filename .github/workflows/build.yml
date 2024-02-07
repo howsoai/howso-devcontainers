@@ -128,20 +128,20 @@ jobs:
 
       - name: Update devcontainer files
         run: |
-          # Remove all existing .devcontainers files and subdirectories
+          # Remove all existing .devcontainer files and subdirectories
           rm -rf .devcontainer
           mkdir .devcontainer
           ENGINE_VERSION="${{ needs.build.outputs.engine-version }}"
           declare -a arr=("3.8" "3.9" "3.10" "3.11") 
           for PY_VERSION in "${arr[@]}"; do
-            echo "Setting up .devcontainers for Python$PY_VERSION"
-            mkdir .devcontainers/$ENGINE_VERSION-python$PY_VERSION
-            cp .github/templates/devcontainer.json .devcontainers/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json
-            sed -i "s|{HOWSO_ENGINE_VERSION}|$ENGINE_VERSION|g" .devcontainers/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json
-            sed -i "s|{PYTHON_VERSION}|$PY_VERSION|g" .devcontainers/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json
+            echo "Setting up .devcontainer for Python$PY_VERSION"
+            mkdir .devcontainer/$ENGINE_VERSION-python$PY_VERSION
+            cp .github/templates/devcontainer.json .devcontainer/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json
+            sed -i "s|{HOWSO_ENGINE_VERSION}|$ENGINE_VERSION|g" .devcontainer/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json
+            sed -i "s|{PYTHON_VERSION}|$PY_VERSION|g" .devcontainer/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json
             # If the current Python version is 3.11, also set it as the default devcontainer file
             if [[ "$PY_VERSION" == "3.11" ]]; then
-              cp .devcontainers/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json .devcontainers/devcontainer.json
+              cp .devcontainer/$ENGINE_VERSION-python$PY_VERSION/devcontainer.json .devcontainer/devcontainer.json
             fi
           done
 
@@ -152,7 +152,7 @@ jobs:
             git config user.name "howso-automation"
             git config user.email "support@howso.com"
             git add --all :/
-            git commit -m "Automated update to .devcontainers"
+            git commit -m "Automated update to .devcontainer"
             git push
           else
             echo "No changes detected in the repository."
@@ -170,7 +170,7 @@ jobs:
     with:
       branch: ${{ needs.gen-branch-name.outputs.branch }}
       repo: 'howsoai/howso-engine-recipes'
-      title: 'Automated update to .devcontainers'
+      title: 'Automated update to .devcontainer'
       body: 'This action was performed by a bot. Please review carefully.'
 
   release:
