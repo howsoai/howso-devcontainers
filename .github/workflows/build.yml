@@ -65,6 +65,24 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
+      - name: Get latest howso-engine-py version
+        if: inputs.build-type != 'release'
+        id: get-hse-py-version
+        run: |
+          latest=$(pip index versions howso-engine | grep -oP '(\d+\.)?(\d+\.)?(\*|\d+)' | sort -V | tail -n1)
+          echo "latest_version=$latest" >> $GITHUB_OUTPUT
+
+      - name: Build Docker Image (no push)
+        if: inputs.build-type != 'release'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          build-args: |
+            PY_VERSION=${{ matrix.python-ver }}
+            HOWSO_ENGINE_VERSION=${{ steps.get-hse-py-version.outputs.latest_version }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
       - name: Build & Push Docker image
         if: inputs.build-type == 'release'
         uses: docker/build-push-action@v5
