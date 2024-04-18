@@ -31,7 +31,7 @@ jobs:
     permissions: write-all
     strategy:
       matrix:
-        python-ver: ["3.8", "3.9", "3.10", "3.11"]
+        python-ver: ["3.9", "3.10", "3.11", "3.12"]
     steps:
 
       - name: Check out the repo
@@ -145,7 +145,7 @@ jobs:
           rm -rf .devcontainer
           mkdir .devcontainer
           ENGINE_VERSION="${{ inputs.howso-engine-version }}"
-          declare -a arr=("3.8" "3.9" "3.10" "3.11") 
+          declare -a arr=("3.9" "3.10" "3.11" "3.12") 
           for PY_VERSION in "${arr[@]}"; do
             echo "Setting up .devcontainer for Python$PY_VERSION"
             mkdir .devcontainer/$ENGINE_VERSION-python$PY_VERSION
