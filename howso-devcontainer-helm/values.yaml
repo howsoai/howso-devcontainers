@@ -9,9 +9,9 @@ global:
     images:
       # howso.azurecr.io/howso-devcontainer:18.1.4-python3.12
       devcontainer:
-        tag: "18.1.4-python3.12"
-        image: "howso-devcontainer"
-        registry: "howso.azurecr.io"
+        tag: "18.1.2-python3.9"
+        image: "howso"
+        registry: "ghcr.io/howsoai"
       busybox:
         tag: "latest"
         image: "busybox"
@@ -26,7 +26,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "18.1.2-python3.9"
 
-command: ["jupyter-lab --NotebookApp.token=howso --ip=0.0.0.0"]
+command: ["/bin/bash", "-c", "mkdir -p ~/workdir; cd ~/workdir; set -x; pip install jupyterlab && python -m jupyter lab --NotebookApp.token=howso --ip=0.0.0.0 --allow-root"]
 
 imagePullSecrets: []
 nameOverride: ""
