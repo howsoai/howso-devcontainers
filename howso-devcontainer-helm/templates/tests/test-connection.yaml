@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "howso-devcontainer.fullname" . }}-test-connection"
+  labels:
+    {{- include "howso-devcontainer.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: "{{ .Values.global.azure.images.busybox.registry }}/{{ .Values.global.azure.images.busybox.image }}:{{ .Values.global.azure.images.busybox.tag }}"
+      command: ['wget']
+      args: ['{{ include "howso-devcontainer.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
