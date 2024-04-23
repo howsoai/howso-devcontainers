@@ -213,7 +213,7 @@
 						"label": "FQDN host for instance.",
 						"toolTip": "This will replace the value1's value inside your values.yaml",
 						"constraints": {
-                            "regex": "^[a-zA-Z\\.\\-0-9]$",
+                            "regex": "^[a-zA-Z\\.\\-0-9]+$",
 							"required": true,
                             "validationMessage": "Must be a valid hostname."
 						}
