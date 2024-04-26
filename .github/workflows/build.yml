@@ -83,6 +83,13 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Wait for PyPi
+        if: inputs.build-type == 'release'
+        run: |
+          # When this workflow is triggered automatically by howso-engine-py releases,
+          # it sometimes tries to pull in the new howso-engine from PyPi before it is available.
+          sleep 30
+
       - name: Build & Push Docker image
         if: inputs.build-type == 'release'
         uses: docker/build-push-action@v5
