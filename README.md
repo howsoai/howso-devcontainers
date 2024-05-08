@@ -67,6 +67,9 @@ You can customize this configuration to your needs using the [devctonainer json 
 
 - [Documentation](https://docs.howso.com)
 - [Howso Engine Recipes (sample notebooks)](https://github.com/howsoai/howso-engine-recipes)
+
+  [![Open in Dev Containers](https://img.shields.io/static/v1?label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/howsoai/howso-engine-recipes)
+
 - [Howso Playground](https://playground.howso.com)
 
 ## General Overview
