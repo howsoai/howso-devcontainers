@@ -28,6 +28,41 @@ Furthermore, Trainees are auditable, debuggable, and editable.
 - **Auditable**: Trainees manage metadata about themselves including: when data is trained, when training data is edited, when data is removed, etc.
 - **Editable**: Specific cases of training data can be removed, edited, and emphasized (through case weighting) without the need to retrain.
 
+## Quick Start
+
+### VS Code Configuration (Recommended)
+
+To use How So Engine in a new or existing project simply create a `.devcontainer/devcontainer.json` file and configure
+it to use our avialable images:
+
+```json
+{
+    "name": "How So Engine",
+    "image": "ghcr.io/howsoai/howso:19.0.5-python3.9",
+    "customizations": {
+        "vscode": {
+            "settings": {},
+            "extensions": [
+                "ms-python.python",
+                "ms-toolsai.jupyter"
+            ]
+        }
+    },
+    "postCreateCommand": "verify_howso_install"
+}
+```
+
+Next press `F1` and search for `Dev Containers: Reopen in Container`:
+
+![Dev Containers: Reopen in Container](docs/reopen-in-template.png)
+
+VS Code should reopen your project in the dev container. You'll know How So Engine is available and ready to use from
+the `postCreateCommand` output:
+
+![How So Ready](docs/howso-ready.png)
+
+You can customize this configuration to your needs using the [devctonainer json reference](https://containers.dev/implementors/json_reference/).
+
 ## Resources
 
 - [Documentation](https://docs.howso.com)
