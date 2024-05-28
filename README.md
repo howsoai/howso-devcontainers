@@ -78,10 +78,7 @@ You can customize this configuration to your needs using the [devcontainer json 
 
 ## General Overview
 
-Howso Development Containers are an easy, ready to use option for running Howso Engine. The dev container images are
-built to include Howso Engine and all dependencies so you can just load it and run Jupyter notebooks or python from VS
-Code. Using the dev containers require Docker and VS Code, but avoids setting up and maintaining your own python
-environment with Howso Engine installed.
+Howso Development Containers are an easy, ready to use option for running Howso Engine. The dev container images are built to include Howso Engine and all dependencies so you can just load it and run Jupyter notebooks or python from VS Code. Using the dev containers require Docker and VS Code, but avoids setting up and maintaining your own python environment with Howso Engine installed.
 
 ## Benefits of Using a Dev Container
 
