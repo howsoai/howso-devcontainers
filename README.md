@@ -33,7 +33,7 @@ Furthermore, Trainees are auditable, debuggable, and editable.
 ### VS Code Configuration
 
 If not yet available on your system, [install Docker](https://docs.docker.com/engine/install/). To use How So Engine in
-a new or existing project create a `.devcontainer/devcontainer.json` file and configure it to use our avialable images:
+a new or existing project create a `.devcontainer/devcontainer.json` file and configure it to use our available images:
 
 ```json
 {
@@ -54,7 +54,7 @@ a new or existing project create a `.devcontainer/devcontainer.json` file and co
 
 Next, ensure the _Visual Studio Code Dev Containers_ plugin is installed
 ([link](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)). After the plugin is
-instaleld, press `F1` or click the **><** menu in the bottom right and search for `Dev Containers: Reopen in Container`:
+installed, press `F1` or click the **><** menu in the bottom right and search for `Dev Containers: Reopen in Container`:
 
 ![Dev Containers: Reopen in Container](docs/reopen-in-template.png)
 
@@ -65,7 +65,7 @@ the `postCreateCommand` output:
 
 ![How So Ready](docs/howso-ready.png)
 
-You can customize this configuration to your needs using the [devctonainer json reference](https://containers.dev/implementors/json_reference/).
+You can customize this configuration to your needs using the [devcontainer json reference](https://containers.dev/implementors/json_reference/).
 
 ## Resources
 
