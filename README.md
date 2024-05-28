@@ -30,10 +30,10 @@ Furthermore, Trainees are auditable, debuggable, and editable.
 
 ## Quick Start
 
-### VS Code Configuration (Recommended)
+### VS Code Configuration
 
-To use How So Engine in a new or existing project simply create a `.devcontainer/devcontainer.json` file and configure
-it to use our avialable images:
+If not yet available on your system, [install Docker](https://docs.docker.com/engine/install/). To use How So Engine in
+a new or existing project create a `.devcontainer/devcontainer.json` file and configure it to use our avialable images:
 
 ```json
 {
@@ -52,9 +52,13 @@ it to use our avialable images:
 }
 ```
 
-Next press `F1` and search for `Dev Containers: Reopen in Container`:
+Next, ensure the _Visual Studio Code Dev Containers_ plugin is installed
+([link](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)). After the plugin is
+instaleld, press `F1` or click the **><** menu in the bottom right and search for `Dev Containers: Reopen in Container`:
 
 ![Dev Containers: Reopen in Container](docs/reopen-in-template.png)
+
+You can also open the project in a dev container 
 
 VS Code should reopen your project in the dev container. You'll know How So Engine is available and ready to use from
 the `postCreateCommand` output:
@@ -74,7 +78,10 @@ You can customize this configuration to your needs using the [devctonainer json 
 
 ## General Overview
 
-Howso Development Containers are an easy, ready to use option for running Howso Engine. The dev container images are built to include Howso Engine and all dependencies so you can just load it and run Jupyter notebooks or python from VS Code. Using the dev containers require Docker and VS Code, but avoids setting up and maintaining your own python environment with Howso Engine installed.
+Howso Development Containers are an easy, ready to use option for running Howso Engine. The dev container images are
+built to include Howso Engine and all dependencies so you can just load it and run Jupyter notebooks or python from VS
+Code. Using the dev containers require Docker and VS Code, but avoids setting up and maintaining your own python
+environment with Howso Engine installed.
 
 ## Benefits of Using a Dev Container
 
@@ -125,17 +132,6 @@ Compatible with Python versions: 3.9, 3.10, 3.11, and 3.12
 | Windows | Yes    | No    |
 | Linux   | Yes    | Yes   |
 | MacOS   | Yes    | Yes   |
-
-## Quick Start
-
-More details are available in the next section, but here are the basic steps:
-1. Make sure Docker is installed and running
-1. Make sure VS Code is installed, including the [VS Code Dev Container Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-1. If necessary, add a `.devcontainer` directory to your workspace with subdirectories and `devcontainer.json` files for each dev container version you may want to run.
-1. Run VS Code from your workspace directory (e.g. `vscode .`)
-1. Use the blue "><" button in the lower left corner of VS Code to open the dev container menu.
-1. Select "Reopen in Container" and pick which dev container version you'd like to to use for the current session
-1. Once it's restarted, you should be able to run notebooks and python from that VS Code session using Howso Engine
 
 ## Using the Dev Container
 
