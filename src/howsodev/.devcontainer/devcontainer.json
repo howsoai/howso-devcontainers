@@ -1,0 +1,14 @@
+{
+	"name": "How So Development",
+    "image": "ghcr.io/howsoai/howso:${templateOption:imageTag}",
+    "customizations": {
+        "vscode": {
+            "settings": {},
+            "extensions": [
+                "ms-python.python",
+                "ms-toolsai.jupyter"
+            ]
+        }
+    },
+    "postCreateCommand": "verify_howso_install"
+}

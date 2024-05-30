@@ -1,0 +1,21 @@
+{
+    "id": "howso_dev",
+    "version": "1.0.0",
+    "name": "How So AI Development",
+    "description": "A template to build explainable AI solutions with How So AI",
+    "documentationURL": "https://github.com/howsoai/howso-devcontainers",
+    "licenseURL": "https://github.com/howsoai/howso-devcontainers/blob/main/LICENSE.txt",
+    "options": {
+        "imageTag": {
+            "type": "string",
+            "description": "Image tag/version to use:",
+            "proposals": [
+                "19.0.5-python3.9"
+            ],
+            "default": "19.0.5-python3.9"
+        }
+    },
+    "platforms": [
+        "Any"
+    ]
+}
