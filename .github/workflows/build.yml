@@ -12,7 +12,7 @@ on:
         required: true
         type: string
       build-type:
-        description: If you are not a bot, you do not need to change this input
+        description: Use "release" if release; else leave empty
         required: false
         type: string
 
@@ -69,8 +69,13 @@ jobs:
         if: inputs.build-type != 'release'
         id: get-hse-py-version
         run: |
-          latest=$(pip index versions howso-engine | grep -oP '(\d+\.)?(\d+\.)?(\*|\d+)' | sort -V | tail -n1)
-          echo "latest_version=$latest" >> $GITHUB_OUTPUT
+          if [[ "${{ inputs.howso-engine-version }}" != "" ]]; then
+            echo "latest_version=${{ inputs.howso-engine-version }}"
+            echo "Using provided howso-engine-py version: ${{ inputs.howso-engine-version }}"
+          else
+            latest=$(pip index versions howso-engine | grep -oP '(\d+\.)?(\d+\.)?(\*|\d+)' | sort -V | tail -n1)
+            echo "latest_version=$latest" >> $GITHUB_OUTPUT
+          fi
 
       - name: Build Docker Image (no push)
         if: inputs.build-type != 'release'
