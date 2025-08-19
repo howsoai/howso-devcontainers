@@ -37,8 +37,8 @@ a new or existing project create a `.devcontainer/devcontainer.json` file and co
 
 ```json
 {
-    "name": "How So Engine",
-    "image": "ghcr.io/howsoai/howso:19.0.5-python3.9",
+    "name": "Howso Engine",
+    "image": "ghcr.io/howsoai/howso:42.0.0-python3.13",
     "customizations": {
         "vscode": {
             "settings": {},
@@ -97,8 +97,8 @@ Howso Development Container [images](https://github.com/howsoai/howso-devcontain
 ### `<engine version>-python<python version>`
 
 Examples:
-- `1.2.3-python3.9`
-- `5.6.7-python3.12`
+- `1.2.3-python3.10`
+- `5.6.7-python3.13`
 
 This is the fully qualified tag that includes both the version of Howso Engine and python. This tag is immutable and will always reference the same image.
 
@@ -120,7 +120,7 @@ Because of the mutable nature of this tag, it's possible to create confusion abo
 
 ## Supported Platforms
 
-Compatible with Python versions: 3.9, 3.10, 3.11, and 3.12
+Compatible with Python versions: 3.10, 3.11, 3.12, and 3.13.
 
 **Operating Systems**
 
