@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/devcontainers/python:${PY_VERSION}-bullseye
 # A valid engine version must be provided as a build argument
 ARG HOWSO_ENGINE_VERSION=undefined
 
-# Remove yarn
+# Remove yarn (GPG key issue)
 RUN rm -f /etc/apt/sources.list.d/yarn.list
 
 # Ensure GDAL is installed for Python 3.12 installations
