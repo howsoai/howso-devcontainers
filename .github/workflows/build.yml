@@ -31,7 +31,7 @@ jobs:
     permissions: write-all
     strategy:
       matrix:
-        python-ver: ["3.10", "3.11", "3.12", "3.13"]
+        python-ver: ["3.11", "3.12", "3.13", "3.14"]
     steps:
 
       - name: Check out the repo
