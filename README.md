@@ -97,7 +97,7 @@ Howso Development Container [images](https://github.com/howsoai/howso-devcontain
 ### `<engine version>-python<python version>`
 
 Examples:
-- `1.2.3-python3.10`
+- `1.2.3-python3.11`
 - `5.6.7-python3.13`
 
 This is the fully qualified tag that includes both the version of Howso Engine and python. This tag is immutable and will always reference the same image.
@@ -106,7 +106,7 @@ This is the fully qualified tag that includes both the version of Howso Engine a
 
 Examples:
 - `python3.11`
-- `python3.10`
+- `python3.14`
 
 Each time a release occurs, the images are tagged with a shortened tag including only the python version. This tag is mutable and will refer to the image with the most recent release of Howso Engine running on the specified version of python.
 
@@ -120,7 +120,7 @@ Because of the mutable nature of this tag, it's possible to create confusion abo
 
 ## Supported Platforms
 
-Compatible with Python versions: 3.10, 3.11, 3.12, and 3.13.
+Compatible with Python versions: 3.11, 3.12, 3.13, and 3.14.
 
 **Operating Systems**
 
