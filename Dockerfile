@@ -1,5 +1,5 @@
 ARG PY_VERSION=3.12
-FROM mcr.microsoft.com/devcontainers/python:${PY_VERSION}-bullseye
+FROM mcr.microsoft.com/devcontainers/python:${PY_VERSION}-bookworm
 
 # A valid engine version must be provided as a build argument
 ARG HOWSO_ENGINE_VERSION=undefined
